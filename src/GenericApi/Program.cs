@@ -1,3 +1,5 @@
+using GenericApi.BusinessLogic;
+using GenericApi.Classes;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<IBusinessLogic<Order>, OrderBusinessLogic>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
