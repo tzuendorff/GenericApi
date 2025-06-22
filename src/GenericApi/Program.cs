@@ -1,5 +1,8 @@
 using GenericApi.BusinessLogic;
 using GenericApi.Classes;
+using GenericApi.DataAccess;
+using GenericApi.Models.Configurations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,7 +12,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add services to the container.
+builder.Services.Configure<OrderDatabaseSettings>(
+    builder.Configuration.GetSection("MongoDatabase"));
+
+builder.Services.AddSingleton<IDataAccess<Order>, OrderMongoConnector>();
 builder.Services.AddSingleton<IBusinessLogic<Order>, OrderBusinessLogic>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
