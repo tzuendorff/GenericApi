@@ -48,12 +48,6 @@ public class OrderMongoConnector : IDataAccess<Order>
         return order.Id;
     }
 
-    public async Task<List<Order>> ReadAllEntity()
-    {
-        var results = await _ordersCollection.Find(_ => true).ToListAsync();
-        return results;
-    }
-
     public async Task<List<Order>> ReadAllEntitiesByFilter(string id)
     {
         var result = await _ordersCollection.Find(order => order.Id!.ToString().Contains(id)).ToListAsync();

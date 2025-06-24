@@ -29,13 +29,6 @@ public class OrderBusinessLogic : IBusinessLogic<Order>
         _logger.LogInformation($"Succesfully read order. {order}");
         return order;
     }
-    public List<Order> ReadAllEntity()
-    {
-        _logger.LogInformation($"Reading all orders with");
-        var orders = _dataAccess.ReadAllEntity().Result;
-        _logger.LogInformation($"Succesfully read order. Number of entries read: {orders.Count}");
-        return orders;
-    }
 
     //public void UpdateEntity(Order order)
     //{

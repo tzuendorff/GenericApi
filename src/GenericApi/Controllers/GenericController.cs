@@ -42,20 +42,10 @@ namespace GenericApi.Controllers
         [HttpGet("/orders")]
         public IActionResult GetOrders(string? orderId)
         {
-            // Empty filter. Return all orders in collection
-            if (orderId == null || orderId == "")
+            if (orderId == null)
             {
-                try
-                {
-                    return Ok(_businessLogic.ReadAllEntity());
-                }
-                catch (Exception exception)
-                {
-                    _logger.LogError($"Could not read all orders. {exception}");
-                    return StatusCode((int)HttpStatusCode.InternalServerError, ErrorText[HttpStatusCode.InternalServerError]);
-                }
+                orderId = "";
             }
-
             // Non empty filter. Return all orders whose Id contains the given orderId.
             try
             {
