@@ -1,7 +1,6 @@
 using GenericApi.BusinessLogic;
 using GenericApi.Classes;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Net;
 
 namespace GenericApi.Controllers
@@ -66,44 +65,44 @@ namespace GenericApi.Controllers
             }
         }
 
-        //[HttpPut("/orders")]
-        //public IActionResult UpdateOrder(Order order)
-        //{
-        //    try
-        //    {
-        //        _businessLogic.UpdateEntity(order);
-        //        return Ok();
-        //    }
-        //    catch (KeyNotFoundException exception)
-        //    {
-        //        _logger.LogError($"Could not find order with id {order.Id}. {exception}");
-        //        return StatusCode((int)HttpStatusCode.NotFound, ErrorText[HttpStatusCode.NotFound]);
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        _logger.LogError($"Could not update order. {exception}");
-        //        return StatusCode((int)HttpStatusCode.InternalServerError, ErrorText[HttpStatusCode.InternalServerError]);
-        //    }
-        //}
+        [HttpPut("/orders")]
+        public IActionResult UpdateOrder(Order order)
+        {
+            try
+            { 
+                var numberOfModifiedDocuments = _businessLogic.UpdateEntity(order);
+                if (numberOfModifiedDocuments > 0)
+                {
+                    return Ok(numberOfModifiedDocuments);
+                }
+                _logger.LogError($"Could not uptade order/s with id {order.Id}.");
+                return NotFound($"No order with Id {order.Id} found");
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError($"Could not update order. {exception}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, ErrorText[HttpStatusCode.InternalServerError]);
+            }
+        }
 
-        //[HttpDelete("/orders")]
-        //public IActionResult DeleteOrders(int orderId)
-        //{
-        //    try
-        //    {
-        //        _businessLogic.DeleteEntity(orderId);
-        //        return Ok();
-        //    }
-        //    catch (KeyNotFoundException exception)
-        //    {
-        //        _logger.LogError($"Could not find order with id {orderId}. {exception}");
-        //        return StatusCode((int)HttpStatusCode.NotFound, ErrorText[HttpStatusCode.NotFound]);
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        _logger.LogError($"Could not delete order with id {orderId}. {exception}");
-        //        return StatusCode((int)HttpStatusCode.InternalServerError, ErrorText[HttpStatusCode.InternalServerError]);
-        //    }
-        //}
+        [HttpDelete("/orders")]
+        public IActionResult DeleteOrders(string orderId)
+        {
+            try
+            {
+                var numberOfDeletedDocuments = _businessLogic.DeleteEntity(orderId);
+                if (numberOfDeletedDocuments > 0)
+                {
+                    return Ok(numberOfDeletedDocuments);
+                }
+                _logger.LogError($"Could not delete order with id {orderId}.");
+                return NotFound($"No order with Id {orderId} found");
+            }
+            catch (Exception exception)
+            {
+                _logger.LogError($"Could not delete order with id {orderId}. {exception}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, ErrorText[HttpStatusCode.InternalServerError]);
+            }
+        }
     }
 }

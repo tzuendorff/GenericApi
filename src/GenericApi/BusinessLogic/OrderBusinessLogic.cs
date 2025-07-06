@@ -30,17 +30,19 @@ public class OrderBusinessLogic : IBusinessLogic<Order>
         return order;
     }
 
-    //public void UpdateEntity(Order order)
-    //{
-    //    _logger.LogInformation($"Updaing order {order}");
-    //    _dataAccess.UpdateEntity(order);
-    //    _logger.LogInformation($"Succesfully updated order with Id {order.Id}");
-    //}
+    public int UpdateEntity(Order order)
+    {
+        _logger.LogInformation($"Updaing order {order.Id} with {order}");
+        var numberOfModifiedEntities = _dataAccess.UpdateEntity(order).Result;
+        _logger.LogInformation($"Succesfully updated {numberOfModifiedEntities} order/s with Id {order.Id}");
+        return numberOfModifiedEntities;
+    }
 
-    //public void DeleteEntity(string id)
-    //{
-    //    _logger.LogInformation($"Deleting order {id}");
-    //    _dataAccess.DeleteEntity(id);
-    //    _logger.LogInformation($"Succesfully deleted order with Id {id}");
-    //}
+    public int DeleteEntity(string id)
+    {
+        _logger.LogInformation($"Deleting order {id}");
+        var numberOfDeletedEntities = _dataAccess.DeleteEntity(id).Result;
+        _logger.LogInformation($"Succesfully deleted {numberOfDeletedEntities} order/s with Id {id}");
+        return numberOfDeletedEntities;
+    }
 }

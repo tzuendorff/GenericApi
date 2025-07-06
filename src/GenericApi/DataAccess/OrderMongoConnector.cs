@@ -50,20 +50,21 @@ public class OrderMongoConnector : IDataAccess<Order>
 
     public async Task<List<Order>> ReadAllEntitiesByFilter(string id)
     {
-        var result = await _ordersCollection.Find(order => order.Id!.ToString().Contains(id)).ToListAsync();
+        var result = await _ordersCollection.Find(order => order.Id!.ToString().Contains(id)).ToListAsync(); // order.Id is never null, as this is an entry in the DB.
         return result;
     }
 
-    //public async Task DeleteEntity(string id)
-    //{
-    //    throw new NotImplementedException();
-    //}
+    public async Task<int> UpdateEntity(Order updatedOrder)
+    {
+        var result = await _ordersCollection.ReplaceOneAsync(order => order.Id == updatedOrder.Id, updatedOrder);
+        return (int)result.ModifiedCount;
+    }
 
-    //public async Task UpdateEntity(Order order)
-    //{
-    //    throw new NotImplementedException();
-    //}
-
+    public async Task<int> DeleteEntity(string id)
+    {
+        var result = await _ordersCollection.DeleteOneAsync(order => order.Id == id);
+        return (int)result.DeletedCount;
+    }
 
 }
 
