@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using GenericApi.Models.Configurations;
-using MongoDB.Bson;
 
 namespace GenericApi.DataAccess;
 
@@ -38,29 +37,37 @@ public class OrderMongoConnector : IDataAccess<Order>
             throw new ArgumentException("Id must be empty. The database creates a new Id when created. That Id is returned from this method.");
         }
 
-        await _ordersCollection.InsertOneAsync(order);
+        _logger.LogInformation($"Creating new Order {orderToBeCreated}");
         await _ordersCollection.InsertOneAsync(orderToBeCreated);
+        _logger.LogInformation($"Created new Order with Id {orderToBeCreated.Id}");
 
         return orderToBeCreated.Id;
-        }
-        return order.Id;
     }
 
     public async Task<List<Order>> ReadAllEntitiesByFilter(string id)
     {
+        _logger.LogInformation($"Reading order with Id {id}");
         var result = await _ordersCollection.Find(order => order.Id!.ToString().Contains(id)).ToListAsync(); // order.Id is never null, as this is an entry in the DB.
+        _logger.LogInformation($"Succesfully read order. {result}");
+
         return result;
     }
 
     public async Task<int> UpdateEntity(Order updatedOrder)
     {
+        _logger.LogInformation($"Updaing order {updatedOrder.Id} with {updatedOrder}");
         var result = await _ordersCollection.ReplaceOneAsync(order => order.Id == updatedOrder.Id, updatedOrder);
+        _logger.LogInformation($"Succesfully updated {result.ModifiedCount} order/s with Id {updatedOrder.Id}");
+
         return (int)result.ModifiedCount;
     }
 
     public async Task<int> DeleteEntity(string id)
     {
+        _logger.LogInformation($"Deleting order {id}");
         var result = await _ordersCollection.DeleteOneAsync(order => order.Id == id);
+        _logger.LogInformation($"Succesfully deleted {result.DeletedCount} order/s with Id {id}");
+
         return (int)result.DeletedCount;
     }
 

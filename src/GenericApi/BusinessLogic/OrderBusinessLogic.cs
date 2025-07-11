@@ -15,34 +15,27 @@ public class OrderBusinessLogic : IBusinessLogic<Order>
         _dataAccess = dataAccess;
     }
 
-    public string CreateEntity(Order order)
+    public async Task<string> CreateEntity(Order order)
     {
-        _logger.LogInformation($"Creating new Order {order}");
-        var orderId = _dataAccess.CreateEntity(order).Result;
-        _logger.LogInformation($"Created new Order with Id {orderId}");
+        var orderId = await _dataAccess.CreateEntity(order);
         return orderId;
     }
-    public List<Order> ReadAllEntitiesByFilter(string orderId)
+
+    public async Task<List<Order>> ReadAllEntitiesByFilter(string orderId)
     {
-        _logger.LogInformation($"Reading order with Id {orderId}");
-        var order = _dataAccess.ReadAllEntitiesByFilter(orderId).Result;
-        _logger.LogInformation($"Succesfully read order. {order}");
-        return order;
+        var orders = await _dataAccess.ReadAllEntitiesByFilter(orderId);
+        return orders;
     }
 
-    public int UpdateEntity(Order order)
+    public async Task<int> UpdateEntity(Order order)
     {
-        _logger.LogInformation($"Updaing order {order.Id} with {order}");
-        var numberOfModifiedEntities = _dataAccess.UpdateEntity(order).Result;
-        _logger.LogInformation($"Succesfully updated {numberOfModifiedEntities} order/s with Id {order.Id}");
+        var numberOfModifiedEntities = await _dataAccess.UpdateEntity(order);
         return numberOfModifiedEntities;
     }
 
-    public int DeleteEntity(string id)
-    {
-        _logger.LogInformation($"Deleting order {id}");
-        var numberOfDeletedEntities = _dataAccess.DeleteEntity(id).Result;
-        _logger.LogInformation($"Succesfully deleted {numberOfDeletedEntities} order/s with Id {id}");
+    public async Task<int> DeleteEntity(string id)
+    {        
+        var numberOfDeletedEntities = await _dataAccess.DeleteEntity(id);
         return numberOfDeletedEntities;
     }
 }

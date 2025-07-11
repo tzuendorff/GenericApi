@@ -3,8 +3,8 @@
 namespace GenericApi.BusinessLogic;
 public interface IBusinessLogic<T>
 {
-    public string CreateEntity(Order order);
-    public List<Order> ReadAllEntitiesByFilter(string id);
-    public int UpdateEntity(Order order);
-    public int DeleteEntity(string id);
+    public Task<string> CreateEntity(T entity);
+    public Task<List<T>> ReadAllEntitiesByFilter(string id);
+    public Task<int> UpdateEntity(T entity);
+    public Task<int> DeleteEntity(string id);
 }
