@@ -24,26 +24,24 @@ public class OrderMongoConnector : IDataAccess<Order>
 
         _logger = logger;
     }
-    public async Task<string> CreateEntity(Order order)
+    public async Task<string> CreateEntity(Order orderToBeCreated)
     {
         //If property "Id" is provided but empty, set it to null.
         // This automatically creates a new id, when creating it in the database.
-        if (order.Id == "")
+        if (orderToBeCreated.Id == "")
         {
-            order.Id = null; 
+            orderToBeCreated.Id = null; 
         }
-        if (order.Id != null)
+        if (orderToBeCreated.Id != null)
         {
-            _logger.LogError($"Order not inserted into Mongo Collection. Order Id was set by caller. {order}");
-            throw new Exception("Id must be empty. The database creates a new Id when created. That Id is returned from this method.");
+            _logger.LogError($"Order not inserted into Mongo Collection. Order Id must not be set by caller. {orderToBeCreated}");
+            throw new ArgumentException("Id must be empty. The database creates a new Id when created. That Id is returned from this method.");
         }
 
         await _ordersCollection.InsertOneAsync(order);
+        await _ordersCollection.InsertOneAsync(orderToBeCreated);
 
-        if(order.Id == null)
-        {
-            _logger.LogError($"Order not inserted into Mongo Collection. No order Id was set by Mongo Driver. {order}");
-            throw new Exception("Error inserting document. No order Id was set by Mongo Driver.");
+        return orderToBeCreated.Id;
         }
         return order.Id;
     }
