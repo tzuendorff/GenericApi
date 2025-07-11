@@ -4,13 +4,27 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GenericApi.Classes;
 
+
+using System.ComponentModel.DataAnnotations;
+
 public class Order 
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
-    public required string CustomerFirstName { get; set; }
-    public required string CustomerLastName { get; set; }
-    public required bool Approved { get; set; }
-    public required List<Item> Items { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string CustomerFirstName { get; set; } = string.Empty;
+
+    [Required]
+    [StringLength(50)]
+    public string CustomerLastName { get; set; } = string.Empty;
+
+    [Required]
+    public bool Approved { get; set; }
+
+    [Required]
+    [MinLength(1, ErrorMessage = "Order must contain at least one item.")]
+    public List<Item> Items { get; set; } = new();
 }
