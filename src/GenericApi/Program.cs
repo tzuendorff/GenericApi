@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<OrderDatabaseSettings>(
     builder.Configuration.GetSection("MongoDatabase"));
 
-builder.Services.AddSingleton<IDataAccess<Order>, OrderMongoConnector>();
+builder.Services.AddSingleton<IGenericRepository<Order>, OrderMongoRepository>();
 builder.Services.AddSingleton<IBusinessLogic<Order>, OrderBusinessLogic>();
 
 

@@ -7,9 +7,9 @@ namespace GenericApi.BusinessLogic;
 public class OrderBusinessLogic : IBusinessLogic<Order>
 {
     private readonly ILogger<GenericController> _logger;
-    private readonly IDataAccess<Order> _dataAccess;
+    private readonly IGenericRepository<Order> _dataAccess;
 
-    public OrderBusinessLogic(ILogger<GenericController> logger, IDataAccess<Order> dataAccess)
+    public OrderBusinessLogic(ILogger<GenericController> logger, IGenericRepository<Order> dataAccess)
     {
         _logger = logger;
         _dataAccess = dataAccess;

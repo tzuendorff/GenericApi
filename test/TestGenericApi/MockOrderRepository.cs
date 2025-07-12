@@ -1,11 +1,9 @@
 ﻿using GenericApi.Classes;
 using GenericApi.DataAccess;
-using MongoDB.Driver;
-
 
 namespace TestGenericApi;
 
-public class MockOrderMongoConnector : IDataAccess<Order>
+public class MockOrderMongoConnector : IGenericRepository<Order>
 {
     public bool shouldThrowGeneralException = false;
     

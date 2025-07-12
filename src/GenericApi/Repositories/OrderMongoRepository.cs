@@ -5,12 +5,12 @@ using GenericApi.Models.Configurations;
 
 namespace GenericApi.DataAccess;
 
-public class OrderMongoConnector : IDataAccess<Order>
+public class OrderMongoRepository : IGenericRepository<Order>
 {
-    private readonly ILogger<OrderMongoConnector> _logger;
+    private readonly ILogger<OrderMongoRepository> _logger;
     private readonly IMongoCollection<Order> _ordersCollection;
 
-    public OrderMongoConnector(IOptions<OrderDatabaseSettings> orderDatabaseSettings, ILogger<OrderMongoConnector> logger)
+    public OrderMongoRepository(IOptions<OrderDatabaseSettings> orderDatabaseSettings, ILogger<OrderMongoRepository> logger)
     {
         var clientSettings = new MongoClientSettings();
         clientSettings.Credential = MongoCredential.CreateCredential(orderDatabaseSettings.Value.AuthenticationDatabaseName, orderDatabaseSettings.Value.Username, orderDatabaseSettings.Value.Password);
