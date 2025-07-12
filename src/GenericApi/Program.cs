@@ -19,6 +19,8 @@ builder.Services.Configure<OrderDatabaseSettings>(
 builder.Services.AddSingleton<IGenericRepository<Order>, OrderMongoRepository>();
 builder.Services.AddSingleton<IBusinessLogic<Order>, OrderBusinessLogic>();
 
+// Add health checks
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -34,5 +36,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+// Map health check endpoint
+app.MapHealthChecks("/check");
 
 app.Run();
