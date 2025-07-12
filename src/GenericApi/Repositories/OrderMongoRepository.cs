@@ -14,7 +14,8 @@ public class OrderMongoRepository : IGenericRepository<Order>
     {
         var clientSettings = new MongoClientSettings();
         clientSettings.Credential = MongoCredential.CreateCredential(orderDatabaseSettings.Value.AuthenticationDatabaseName, orderDatabaseSettings.Value.Username, orderDatabaseSettings.Value.Password);
-
+        clientSettings.Server = new MongoServerAddress(orderDatabaseSettings.Value.Host, orderDatabaseSettings.Value.Port); // Assuming default port 27017 for MongoDB 
+        
         var mongoClient = new MongoClient(clientSettings);
 
         var mongoDatabase = mongoClient.GetDatabase(orderDatabaseSettings.Value.DatabaseName);
