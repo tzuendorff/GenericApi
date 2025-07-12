@@ -2,7 +2,6 @@ using GenericApi.BusinessLogic;
 using GenericApi.Classes;
 using GenericApi.Constants;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Net;
 
 namespace GenericApi.Controllers;
@@ -19,9 +18,6 @@ public class GenericController : ControllerBase
         _logger = logger;
         _businessLogic = businessLogic;
     }
-
-
-    // Use centralized error messages
 
     [HttpPost("/orders")]
     public async Task<IActionResult> CreateOrder(Order order)
