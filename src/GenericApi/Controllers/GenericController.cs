@@ -58,7 +58,7 @@ public class GenericController : ControllerBase
         {
             var resultOrders = await _businessLogic.ReadAllEntitiesByFilter(orderId);
 
-            if (resultOrders == null)
+            if (resultOrders.Count == 0 )
             {
                 _logger.LogError($"No order found whose orderId containes {orderId}");
                 return NotFound(ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
