@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  genericapi:
+    build: .
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+
+# Uncomment the following lines if you want to use a shared network.
+# For example, if there is a database in another container on the same machine.
+# In that case, use the container name as the url host (i.e. https://google.com) in the appsettings.
+# You need to create the network first with `docker network create yournetworkname`, and don't forget to add the other container to that netowrk as well.
+
+#     networks:
+#       - YOURNETWORKNAME
+
+# networks:
+#   YOURNETWORKNAME:
+#     external: true
