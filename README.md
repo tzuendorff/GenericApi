@@ -3,7 +3,6 @@
 A generic RESTful API built with ASP.NET Core (.NET 8) for managing orders, using MongoDB as the data store. The project demonstrates clean architecture principles, separation of concerns, and includes unit testing with xUnit.
 
 ## ToDo
-- [ ] Dockerize
 - [ ] Add generic Kubernetes manifests with overlays for different staging environments.
 
 ## Features
