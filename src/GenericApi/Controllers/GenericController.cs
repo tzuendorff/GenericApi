@@ -36,12 +36,12 @@ public class GenericController : ControllerBase
         catch (ArgumentException exception)
         {
             _logger.LogError($"Could not create order. {exception}");
-            return StatusCode((int)HttpStatusCode.UnprocessableContent, ErrorMessages.ErrorText[HttpStatusCode.UnprocessableContent]);
+            return UnprocessableEntity (ErrorMessages.ErrorText[HttpStatusCode.UnprocessableContent]);  
         }
         catch (Exception exception)
         {
             _logger.LogError($"Could not create order. {exception}");
-            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.ErrorText[HttpStatusCode.InternalServerError]);
+            return StatusCode(StatusCodes.Status500InternalServerError, ErrorMessages.ErrorText[HttpStatusCode.InternalServerError]);
         }
     }
 
@@ -61,7 +61,7 @@ public class GenericController : ControllerBase
             if (resultOrders == null)
             {
                 _logger.LogError($"No order found whose orderId containes {orderId}");
-                return StatusCode((int)HttpStatusCode.NotFound, ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
+                return NotFound(ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
             }
 
             return Ok(resultOrders);
@@ -69,7 +69,7 @@ public class GenericController : ControllerBase
         catch (Exception exception)
         {
             _logger.LogError($"Could not read order with id {orderId}. {exception}");
-            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.ErrorText[HttpStatusCode.InternalServerError]);
+            return StatusCode(StatusCodes.Status500InternalServerError, ErrorMessages.ErrorText[HttpStatusCode.InternalServerError]);
         }
     }
 
@@ -90,17 +90,17 @@ public class GenericController : ControllerBase
             }
 
             _logger.LogError($"Could not update order. Not order with id {order.Id} found.");
-            return StatusCode((int)HttpStatusCode.NotFound, ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
-        }
+                return NotFound(ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
+            }
         catch (FormatException exception)
         {
             _logger.LogError($"Could not update order. {exception.InnerException}");
-            return StatusCode((int)HttpStatusCode.NotFound, ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
+                return NotFound(ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
         }
         catch (Exception exception)
         {
             _logger.LogError($"Could not update order. {exception}");
-            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.ErrorText[HttpStatusCode.InternalServerError]);
+            return StatusCode(StatusCodes.Status500InternalServerError, ErrorMessages.ErrorText[HttpStatusCode.InternalServerError]);
         }
     }
 
@@ -121,12 +121,12 @@ public class GenericController : ControllerBase
         catch (FormatException exception)
         {
             _logger.LogError($"Could not delete order with id {orderId}. {exception}");
-            return StatusCode((int)HttpStatusCode.NotFound, ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
+            return NotFound(ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
         }
         catch (Exception exception)
         {
             _logger.LogError($"Could not delete order with id {orderId}. {exception}");
-            return StatusCode((int)HttpStatusCode.InternalServerError, ErrorMessages.ErrorText[HttpStatusCode.InternalServerError]);
+            return StatusCode(StatusCodes.Status500InternalServerError, ErrorMessages.ErrorText[HttpStatusCode.InternalServerError]);
         }
     }
 
