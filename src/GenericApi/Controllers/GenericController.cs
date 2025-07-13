@@ -86,7 +86,7 @@ public class GenericController : ControllerBase
             var numberOfModifiedDocuments = await _businessLogic.UpdateEntity(order);
             if (numberOfModifiedDocuments > 0)
             {
-                return Ok(numberOfModifiedDocuments);
+                return Ok($"Number of modified entities: {numberOfModifiedDocuments}");
             }
 
             _logger.LogError($"Could not update order. Not order with id {order.Id} found.");
@@ -112,7 +112,7 @@ public class GenericController : ControllerBase
             var numberOfDeletedDocuments = await _businessLogic.DeleteEntity(orderId);
             if (numberOfDeletedDocuments > 0)
             {
-                return Ok(numberOfDeletedDocuments);
+                return Ok($"Number of deleted entities: {numberOfDeletedDocuments}");
             }
             _logger.LogError($"Could not delete order with id {orderId}.");
             return NotFound($"No order with Id {orderId} found");
