@@ -1,9 +1,7 @@
 using GenericApi.BusinessLogic;
 using GenericApi.Classes;
 using GenericApi.Constants;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using System.Net;
+using Microsoft.AspNetCore.Mvc;using System.Net;
 
 namespace GenericApi.Controllers;
 
@@ -34,7 +32,7 @@ public class GenericController : ControllerBase
             return Ok(orderId);
         }
 
-        catch (BsonSerializationException exception)
+        catch (ArgumentException exception)
         {
             _logger.LogError($"Could not create order. {exception}");
             return UnprocessableEntity (ErrorMessages.ErrorText[HttpStatusCode.UnprocessableContent]);  

@@ -1,7 +1,8 @@
 ﻿using GenericApi.Classes;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 using GenericApi.Models.Configurations;
+using Microsoft.Extensions.Options;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace GenericApi.DataAccess;
 
@@ -27,8 +28,15 @@ public class OrderMongoRepository : IGenericRepository<Order>
     public async Task<string> CreateEntity(Order orderToBeCreated)
     {
         var mongoOrder = new MongoOrder(orderToBeCreated); // Id is null
-        await _ordersCollection.InsertOneAsync(mongoOrder);
-        // mongoOrder.Id now contains the generated ObjectId
+        try
+        {
+            await _ordersCollection.InsertOneAsync(mongoOrder);
+        }
+        catch (BsonSerializationException exception)
+        {
+            throw new ArgumentException(null, exception);
+        }
+            // mongoOrder.Id now contains the generated ObjectId
         _logger.LogInformation($"Creating new Order {mongoOrder}");
         _logger.LogInformation($"Created new Order with Id {mongoOrder.Id}");
 

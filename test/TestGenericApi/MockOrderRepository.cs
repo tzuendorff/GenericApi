@@ -1,6 +1,5 @@
 ﻿using GenericApi.Classes;
 using GenericApi.DataAccess;
-using MongoDB.Bson;
 
 namespace TestGenericApi;
 
@@ -22,7 +21,7 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
         }
         if (orderToBeCreated.BaseId != null)
         {
-            throw new BsonSerializationException();
+            throw new ArgumentException();
         }
         return Task.Run(() => "1111");
     }
