@@ -1,8 +1,9 @@
-﻿namespace GenericApi.Classes
+﻿
+namespace GenericApi.Classes;
+
+public class Item
 {
-    public class Item
-    {
-        public required int Id { get; set; }
-        public required int Amount { get; set; }
-    }
+    public required string Id { get; set; }
+
+    public required int Amount { get; set; }
 }
