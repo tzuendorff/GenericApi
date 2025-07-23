@@ -9,9 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class Order 
 {
-    [BsonId]
-    [BsonRepresentation(BsonType.ObjectId)]
-    public string? Id { get; set; }
+    public string? BaseId { get; set; }
 
     [Required]
     [StringLength(50)]

@@ -2,6 +2,7 @@ using GenericApi.BusinessLogic;
 using GenericApi.Classes;
 using GenericApi.Constants;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System.Net;
 
 namespace GenericApi.Controllers;
@@ -33,7 +34,7 @@ public class GenericController : ControllerBase
             return Ok(orderId);
         }
 
-        catch (ArgumentException exception)
+        catch (BsonSerializationException exception)
         {
             _logger.LogError($"Could not create order. {exception}");
             return UnprocessableEntity (ErrorMessages.ErrorText[HttpStatusCode.UnprocessableContent]);  
@@ -72,7 +73,6 @@ public class GenericController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, ErrorMessages.ErrorText[HttpStatusCode.InternalServerError]);
         }
     }
-
     [HttpPut("/orders")]
     public async Task<IActionResult> UpdateOrder(Order order)
     {
@@ -89,7 +89,7 @@ public class GenericController : ControllerBase
                 return Ok($"Number of modified entities: {numberOfModifiedDocuments}");
             }
 
-            _logger.LogError($"Could not update order. Not order with id {order.Id} found.");
+            _logger.LogError($"Could not update order. Not order with id {order.BaseId} found.");
                 return NotFound(ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
             }
         catch (FormatException exception)
