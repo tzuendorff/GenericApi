@@ -31,8 +31,8 @@ namespace TestGenericApi
                 CustomerLastName = "Doe",
                 Approved = true,
                 Items = new List<Item> {
-                    new Item { Id = 1, Amount = 20 },
-                    new Item { Id = 2, Amount = 10 }
+                    new Item { Id = "1", Amount = 20 },
+                    new Item { Id = "2", Amount = 10 }
                 }
             };
 
@@ -53,8 +53,8 @@ namespace TestGenericApi
                 CustomerLastName = "Doe",
                 Approved = true,
                 Items = new List<Item> {
-                    new Item { Id = 1, Amount = 20 },
-                    new Item { Id = 2, Amount = 10 }
+                    new Item { Id = "1", Amount = 20 },
+                    new Item { Id = "2", Amount = 10 }
                 }
             };
 
@@ -74,7 +74,7 @@ namespace TestGenericApi
             // ARRANGE
             // Simulate invalid model state
             _controller.ModelState.AddModelError("Name", "Required");
-            var order = new Order { Id = "" };
+            var order = new Order { BaseId = "" };
 
             // ACT
             var result = await _controller.CreateOrder(order);
@@ -89,13 +89,13 @@ namespace TestGenericApi
             // ARRANGE
             var order = new Order
             {
-                Id = "1111", // Orders should not have an Id set by the caller.
+                BaseId = "1111", // Orders should not have an Id set by the caller.
                 CustomerFirstName = "John",
                 CustomerLastName = "Doe",
                 Approved = true,
                 Items = new List<Item> {
-                    new Item { Id = 1, Amount = 20 },
-                    new Item { Id = 2, Amount = 10 }
+                    new Item { Id = "1", Amount = 20 },
+                    new Item { Id = "2", Amount = 10 }
                 }
             };
 
@@ -103,7 +103,7 @@ namespace TestGenericApi
             var result = await _controller.CreateOrder(order);
 
             // ASSERT
-            Assert.IsType< UnprocessableEntityObjectResult>(result);
+            Assert.IsType<UnprocessableEntityObjectResult>(result);
         }
 
         [Fact]
@@ -118,8 +118,8 @@ namespace TestGenericApi
                 CustomerLastName = "Doe",
                 Approved = true,
                 Items = new List<Item> {
-                    new Item { Id = 1, Amount = 20 },
-                    new Item { Id = 2, Amount = 10 }
+                    new Item { Id = "1", Amount = 20 },
+                    new Item { Id = "2", Amount = 10 }
                 }
             };
 
@@ -152,25 +152,25 @@ namespace TestGenericApi
         {
             new Order
             {
-                Id = "1111",
+                BaseId = "1111",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
                 Items = new List<Item>
                 {
-                    new Item { Id = 1, Amount = 2 },
-                    new Item { Id = 2, Amount = 1 }
+                    new Item { Id = "1", Amount = 2 },
+                    new Item { Id = "2", Amount = 1 }
                 }
             },
             new Order
             {
-                Id = "2222",
+                BaseId = "2222",
                 CustomerFirstName = "Bob",
                 CustomerLastName = "Johnson",
                 Approved = false,
                 Items = new List<Item>
                 {
-                    new Item { Id = 3, Amount = 5 }
+                    new Item { Id = "3", Amount = 5 }
                 }
             }
         };
@@ -220,14 +220,14 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                Id = "2222",
+                BaseId = "2222",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
                 Items = new List<Item>
                 {
-                    new Item { Id = 1, Amount = 2 },
-                    new Item { Id = 2, Amount = 1 }
+                    new Item { Id = "1", Amount = 2 },
+                    new Item { Id = "2", Amount = 1 }
                 }
             };
 
@@ -244,14 +244,14 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                Id = "2222",
+                BaseId = "2222",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
                 Items = new List<Item>
                 {
-                    new Item { Id = 1, Amount = 2 },
-                    new Item { Id = 2, Amount = 1 }
+                    new Item { Id = "1", Amount = 2 },
+                    new Item { Id = "2", Amount = 1 }
                 }
             };
 
@@ -262,7 +262,7 @@ namespace TestGenericApi
             var okResult = result as OkObjectResult;
             var numberModified = okResult?.Value;
 
-            Assert.Equal(1, numberModified);
+            Assert.Equal("Number of modified entities: 1", numberModified);
         }
 
         [Fact]
@@ -271,14 +271,14 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                Id = "someBadId",
+                BaseId = "someBadId",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
                 Items = new List<Item>
                 {
-                    new Item { Id = 1, Amount = 2 },
-                    new Item { Id = 2, Amount = 1 }
+                    new Item { Id = "1", Amount = 2 },
+                    new Item { Id = "2", Amount = 1 }
                 }
             };
 
@@ -295,14 +295,14 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                Id = "notFoundId",
+                BaseId = "notFoundId",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
                 Items = new List<Item>
                 {
-                    new Item { Id = 1, Amount = 2 },
-                    new Item { Id = 2, Amount = 1 }
+                    new Item { Id = "1", Amount = 2 },
+                    new Item { Id = "2", Amount = 1 }
                 }
             };
 
@@ -318,7 +318,7 @@ namespace TestGenericApi
         {
             // ARRANGE
             _controller.ModelState.AddModelError("Name", "Required");
-            var order = new Order { Id = "" };
+            var order = new Order { BaseId = "" };
             
             // ACT
             var result = await _controller.UpdateOrder(order);
@@ -335,13 +335,13 @@ namespace TestGenericApi
 
             var order = new Order
             {
-                Id = "1111",
+                BaseId = "1111",
                 CustomerFirstName = "John",
                 CustomerLastName = "Doe",
                 Approved = true,
                 Items = new List<Item> {
-                    new Item { Id = 1, Amount = 20 },
-                    new Item { Id = 2, Amount = 10 }
+                    new Item { Id = "1", Amount = 20 },
+                    new Item { Id = "2", Amount = 10 }
                 }
             };
 
@@ -378,7 +378,7 @@ namespace TestGenericApi
             var okResult = result as OkObjectResult;
             var numberModified = okResult?.Value;
 
-            Assert.Equal(1, numberModified);
+            Assert.Equal("Number of deleted entities: 1", numberModified);
         }
 
         [Fact]

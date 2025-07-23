@@ -1,5 +1,6 @@
 ﻿using GenericApi.Classes;
 using GenericApi.DataAccess;
+using MongoDB.Bson;
 
 namespace TestGenericApi;
 
@@ -15,13 +16,13 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
             throw new Exception("General exception for testing purposes.");
         }
 
-        if (orderToBeCreated.Id == "")
+        if (orderToBeCreated.BaseId == "")
         {
-            orderToBeCreated.Id = null;
+            orderToBeCreated.BaseId = null;
         }
-        if (orderToBeCreated.Id != null)
+        if (orderToBeCreated.BaseId != null)
         {
-            throw new ArgumentException();
+            throw new BsonSerializationException();
         }
         return Task.Run(() => "1111");
     }
@@ -43,25 +44,25 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
         {
             new Order
             {
-                Id = "1111",
+                BaseId = "1111",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
                 Items = new List<Item>
                 {
-                    new Item { Id = 1, Amount = 2 },
-                    new Item { Id = 2, Amount = 1 }
+                    new Item { Id = "1", Amount = 2 },
+                    new Item { Id = "2", Amount = 1 }
                 }
             },
             new Order
             {
-                Id = "2222",
+                BaseId = "2222",
                 CustomerFirstName = "Bob",
                 CustomerLastName = "Johnson",
                 Approved = false,
                 Items = new List<Item>
                 {
-                    new Item { Id = 3, Amount = 5 }
+                    new Item { Id = "3", Amount = 5 }
                 }
             }
         });   
@@ -76,11 +77,11 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
             throw new Exception("General exception for testing purposes.");
         }
 
-        if (updatedOrder.Id == "someBadId")
+        if (updatedOrder.BaseId == "someBadId")
         {
             throw new FormatException();
         }
-        if (updatedOrder.Id == "notFoundId")
+        if (updatedOrder.BaseId == "notFoundId")
         {
             return Task.Run(() => 0);
         }
