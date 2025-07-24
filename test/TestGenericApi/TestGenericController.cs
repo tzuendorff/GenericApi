@@ -74,7 +74,7 @@ namespace TestGenericApi
             // ARRANGE
             // Simulate invalid model state
             _controller.ModelState.AddModelError("Name", "Required");
-            var order = new Order { BaseId = "" };
+            var order = new Order { OrderId = "" };
 
             // ACT
             var result = await _controller.CreateOrder(order);
@@ -89,7 +89,7 @@ namespace TestGenericApi
             // ARRANGE
             var order = new Order
             {
-                BaseId = "1111", // Orders should not have an Id set by the caller.
+                OrderId = "1111", // Orders should not have an Id set by the caller.
                 CustomerFirstName = "John",
                 CustomerLastName = "Doe",
                 Approved = true,
@@ -152,7 +152,7 @@ namespace TestGenericApi
         {
             new Order
             {
-                BaseId = "1111",
+                OrderId = "1111",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -164,7 +164,7 @@ namespace TestGenericApi
             },
             new Order
             {
-                BaseId = "2222",
+                OrderId = "2222",
                 CustomerFirstName = "Bob",
                 CustomerLastName = "Johnson",
                 Approved = false,
@@ -220,7 +220,7 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                BaseId = "2222",
+                OrderId = "2222",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -244,7 +244,7 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                BaseId = "2222",
+                OrderId = "2222",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -271,7 +271,7 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                BaseId = "someBadId",
+                OrderId = "someBadId",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -295,7 +295,7 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                BaseId = "notFoundId",
+                OrderId = "notFoundId",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -318,7 +318,7 @@ namespace TestGenericApi
         {
             // ARRANGE
             _controller.ModelState.AddModelError("Name", "Required");
-            var order = new Order { BaseId = "" };
+            var order = new Order { OrderId = "" };
             
             // ACT
             var result = await _controller.UpdateOrder(order);
@@ -335,7 +335,7 @@ namespace TestGenericApi
 
             var order = new Order
             {
-                BaseId = "1111",
+                OrderId = "1111",
                 CustomerFirstName = "John",
                 CustomerLastName = "Doe",
                 Approved = true,

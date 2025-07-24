@@ -15,11 +15,11 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
             throw new Exception("General exception for testing purposes.");
         }
 
-        if (orderToBeCreated.BaseId == "")
+        if (orderToBeCreated.OrderId == "")
         {
-            orderToBeCreated.BaseId = null;
+            orderToBeCreated.OrderId = null;
         }
-        if (orderToBeCreated.BaseId != null)
+        if (orderToBeCreated.OrderId != null)
         {
             throw new ArgumentException();
         }
@@ -43,7 +43,7 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
         {
             new Order
             {
-                BaseId = "1111",
+                OrderId = "1111",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -55,7 +55,7 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
             },
             new Order
             {
-                BaseId = "2222",
+                OrderId = "2222",
                 CustomerFirstName = "Bob",
                 CustomerLastName = "Johnson",
                 Approved = false,
@@ -76,11 +76,11 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
             throw new Exception("General exception for testing purposes.");
         }
 
-        if (updatedOrder.BaseId == "someBadId")
+        if (updatedOrder.OrderId == "someBadId")
         {
             throw new FormatException();
         }
-        if (updatedOrder.BaseId == "notFoundId")
+        if (updatedOrder.OrderId == "notFoundId")
         {
             return Task.Run(() => 0);
         }

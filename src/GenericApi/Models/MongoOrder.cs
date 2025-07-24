@@ -14,7 +14,7 @@ public class MongoOrder : Order
     public MongoOrder(Order ogirinalOrder)
     {
 
-        Id = ogirinalOrder.BaseId;
+        Id = ogirinalOrder.OrderId;
         CustomerFirstName = ogirinalOrder.CustomerFirstName;
         CustomerLastName = ogirinalOrder.CustomerLastName;
         Approved = ogirinalOrder.Approved;
@@ -25,7 +25,7 @@ public class MongoOrder : Order
     {
         return new Order
         {
-            BaseId = Id,
+            OrderId = Id,
             CustomerFirstName = CustomerFirstName,
             CustomerLastName = CustomerLastName,
             Approved = Approved,
