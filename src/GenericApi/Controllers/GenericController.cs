@@ -87,7 +87,7 @@ public class GenericController : ControllerBase
                 return Ok($"Number of modified entities: {numberOfModifiedDocuments}");
             }
 
-            _logger.LogError($"Could not update order. Not order with id {order.OrderId} found.");
+            _logger.LogError($"Could not update order. Not order with id {order.Id} found.");
                 return NotFound(ErrorMessages.ErrorText[HttpStatusCode.NotFound]);
             }
         catch (FormatException exception)

@@ -63,9 +63,9 @@ namespace TestGenericApi
 
             // ASSERT
             var okResult = result as OkObjectResult;
-            var returnedOrderId = okResult?.Value;
+            var returnedId = okResult?.Value;
 
-            Assert.Equal("1111", returnedOrderId);
+            Assert.Equal("1111", returnedId);
         }
 
         [Fact]
@@ -74,7 +74,7 @@ namespace TestGenericApi
             // ARRANGE
             // Simulate invalid model state
             _controller.ModelState.AddModelError("Name", "Required");
-            var order = new Order { OrderId = "" };
+            var order = new Order { Id = "" };
 
             // ACT
             var result = await _controller.CreateOrder(order);
@@ -89,7 +89,7 @@ namespace TestGenericApi
             // ARRANGE
             var order = new Order
             {
-                OrderId = "1111", // Orders should not have an Id set by the caller.
+                Id = "1111", // Orders should not have an Id set by the caller.
                 CustomerFirstName = "John",
                 CustomerLastName = "Doe",
                 Approved = true,
@@ -152,7 +152,7 @@ namespace TestGenericApi
         {
             new Order
             {
-                OrderId = "1111",
+                Id = "1111",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -164,7 +164,7 @@ namespace TestGenericApi
             },
             new Order
             {
-                OrderId = "2222",
+                Id = "2222",
                 CustomerFirstName = "Bob",
                 CustomerLastName = "Johnson",
                 Approved = false,
@@ -180,11 +180,11 @@ namespace TestGenericApi
 
             // ASSERT
             var okResult = result as OkObjectResult;
-            var returnedOrderId = okResult?.Value;
+            var returnedId = okResult?.Value;
 
             // Comparing the two Lists compares the references, not the actual values.
             // Serializing their content and comparing the restulting string actually compare the content.
-            Assert.Equal(JsonSerializer.Serialize(expectedOrder), JsonSerializer.Serialize(returnedOrderId)); 
+            Assert.Equal(JsonSerializer.Serialize(expectedOrder), JsonSerializer.Serialize(returnedId)); 
         }
 
         [Fact]
@@ -220,7 +220,7 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                OrderId = "2222",
+                Id = "2222",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -244,7 +244,7 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                OrderId = "2222",
+                Id = "2222",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -271,7 +271,7 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                OrderId = "someBadId",
+                Id = "someBadId",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -295,7 +295,7 @@ namespace TestGenericApi
             // ARRANGE
             var updatedOrder = new Order
             {
-                OrderId = "notFoundId",
+                Id = "notFoundId",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -318,7 +318,7 @@ namespace TestGenericApi
         {
             // ARRANGE
             _controller.ModelState.AddModelError("Name", "Required");
-            var order = new Order { OrderId = "" };
+            var order = new Order { Id = "" };
             
             // ACT
             var result = await _controller.UpdateOrder(order);
@@ -335,7 +335,7 @@ namespace TestGenericApi
 
             var order = new Order
             {
-                OrderId = "1111",
+                Id = "1111",
                 CustomerFirstName = "John",
                 CustomerLastName = "Doe",
                 Approved = true,

@@ -15,11 +15,11 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
             throw new Exception("General exception for testing purposes.");
         }
 
-        if (orderToBeCreated.OrderId == "")
+        if (orderToBeCreated.Id == "")
         {
-            orderToBeCreated.OrderId = null;
+            orderToBeCreated.Id = null;
         }
-        if (orderToBeCreated.OrderId != null)
+        if (orderToBeCreated.Id != null)
         {
             throw new ArgumentException();
         }
@@ -43,7 +43,7 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
         {
             new Order
             {
-                OrderId = "1111",
+                Id = "1111",
                 CustomerFirstName = "Alice",
                 CustomerLastName = "Smith",
                 Approved = true,
@@ -55,7 +55,7 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
             },
             new Order
             {
-                OrderId = "2222",
+                Id = "2222",
                 CustomerFirstName = "Bob",
                 CustomerLastName = "Johnson",
                 Approved = false,
@@ -76,18 +76,18 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
             throw new Exception("General exception for testing purposes.");
         }
 
-        if (updatedOrder.OrderId == "someBadId")
+        if (updatedOrder.Id == "someBadId")
         {
             throw new FormatException();
         }
-        if (updatedOrder.OrderId == "notFoundId")
+        if (updatedOrder.Id == "notFoundId")
         {
             return Task.Run(() => 0);
         }
         return Task.Run(() => 1);
     }
 
-    public Task<int> DeleteEntity(string deletedOrderId)
+    public Task<int> DeleteEntity(string deletedId)
     {
         if (shouldThrowGeneralException)
         {
@@ -95,11 +95,11 @@ public class MockOrderMongoConnector : IGenericRepository<Order>
             throw new Exception("General exception for testing purposes.");
         }
 
-        if (deletedOrderId == "someBadId")
+        if (deletedId == "someBadId")
         {
             throw new FormatException();
         }
-        if (deletedOrderId == "notFoundId")
+        if (deletedId == "notFoundId")
         {
             return Task.Run(() => 0);
         }

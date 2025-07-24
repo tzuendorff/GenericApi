@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class Order 
 {
-    public string? OrderId { get; set; }
+    public string? Id { get; set; }
 
     [Required]
     [StringLength(50)]

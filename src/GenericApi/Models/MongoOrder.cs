@@ -4,17 +4,32 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GenericApi.Classes;
 
-public class MongoOrder : Order
+public class MongoOrder
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
 
 
+    [Required]
+    [StringLength(50)]
+    public string CustomerFirstName { get; set; } = string.Empty;
+
+    [Required]
+    [StringLength(50)]
+    public string CustomerLastName { get; set; } = string.Empty;
+
+    [Required]
+    public bool Approved { get; set; }
+
+    [Required]
+    [MinLength(1, ErrorMessage = "Order must contain at least one item.")]
+    public List<Item> Items { get; set; } = new();
+
     public MongoOrder(Order ogirinalOrder)
     {
 
-        Id = ogirinalOrder.OrderId;
+        Id = ogirinalOrder.Id;
         CustomerFirstName = ogirinalOrder.CustomerFirstName;
         CustomerLastName = ogirinalOrder.CustomerLastName;
         Approved = ogirinalOrder.Approved;
@@ -25,7 +40,7 @@ public class MongoOrder : Order
     {
         return new Order
         {
-            OrderId = Id,
+            Id = Id,
             CustomerFirstName = CustomerFirstName,
             CustomerLastName = CustomerLastName,
             Approved = Approved,
