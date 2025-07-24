@@ -5,6 +5,22 @@ using GenericApi.Models.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Bind CORS settings from configuration
+builder.Services.Configure<CorsSettings>(builder.Configuration.GetSection("Cors"));
+var corsSettings = builder.Configuration.GetSection("Cors").Get<CorsSettings>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ConfiguredCorsPolicy", policy =>
+    {
+        policy
+            .WithOrigins(corsSettings.AllowedOrigins)
+            .WithMethods(corsSettings.AllowedMethods)
+            .WithHeaders(corsSettings.AllowedHeaders);
+    });
+});
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -14,7 +30,7 @@ builder.Services.AddSwaggerGen();
 
 // Add services to the container.
 builder.Services.Configure<OrderDatabaseSettings>(
-    builder.Configuration.GetSection("MongoDatabase"));
+builder.Configuration.GetSection("MongoDatabase"));
 
 builder.Services.AddSingleton<IGenericRepository<Order>, OrderMongoRepository>();
 builder.Services.AddSingleton<IBusinessLogic<Order>, OrderBusinessLogic>();
@@ -33,7 +49,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Use the configured CORS policy
+app.UseCors("ConfiguredCorsPolicy");
+
 app.UseAuthorization();
+app.MapGet("/debug/cors", (IConfiguration config) =>
+{
+    var cors = config.GetSection("Cors").Get<CorsSettings>();
+    return Results.Json(cors);
+});
 
 app.MapControllers();
 // Map health check endpoint
