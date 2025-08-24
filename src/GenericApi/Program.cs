@@ -9,6 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<CorsSettings>(builder.Configuration.GetSection("Cors"));
 var corsSettings = builder.Configuration.GetSection("Cors").Get<CorsSettings>();
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Use PascalCase property naming policy
+        options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    });
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ConfiguredCorsPolicy", policy =>
