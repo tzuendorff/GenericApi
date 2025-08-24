@@ -23,6 +23,6 @@ public class Order
     public bool Approved { get; set; }
 
     [Required]
-    [MinLength(1, ErrorMessage = "Order must contain at least one item.")]
+    [MinLength(0, ErrorMessage = "Order must contain at least one item.")]
     public List<Item> Items { get; set; } = new();
 }
